@@ -70,7 +70,7 @@ class ApiController extends Controller
             'jwt' => 'required'
         ]);
 
-        $user = User::where('username', '=', $username)->get();
+        $user = User::where('username', '=', $username)->get()[0];
         return json_encode(array("status" => true, "user" => $user));
     }
 
