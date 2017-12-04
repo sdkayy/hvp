@@ -14,6 +14,7 @@
 //	All API endpoints for the vpn
 Route::post('/api/user/login', 'ApiController@login')->name('api_login'); //Login
 Route::post('/api/user/register', 'ApiController@register')->name('api_register'); //Register
+Route::post('/api/user/{username}', 'ApiController@getUser')->name('api_getUser');
 Route::get('/api/servers/get', 'ApiController@servers')->name('api_server_list'); //Get Servers
 Route::post('/api/user/session', 'ApiController@verifySession')->name('api_session'); //Verify Session
 Route::post('/api/user/settings', 'ApiController@settings')->name('api_settings'); // Geting Settings

@@ -38,21 +38,10 @@ class ApiController extends Controller
 			$algorithm = new \Emarref\Jwt\Algorithm\Hs256('verysecret');
 			$encryption = \Emarref\Jwt\Encryption\Factory::create($algorithm);
 			$serializedToken = $jwt->serialize($token, $encryption);
-			return $serializedToken;
+			return json_encode(array("status" => true, "jwt" => $serializedToken));
     	} else {
-            return json_encode(array("error" => "invalid_info"));
+            return json_encode(array("status" => false, "error" => "invalid_info"));
         }
-    }
-
-    /*
-        Verify a session
-    */
-    public function verifySession() 
-    {
-        if($this->verifyJTW(request()->header('jwt')) === true)
-            return json_encode(array("verify_status" => true));
-        else
-            return json_encode(array("verify_status" => false));
     }
 
     /*
@@ -70,6 +59,30 @@ class ApiController extends Controller
             'password' => bcrypt(request('password')),
             'email' => request('email')
         ]);
+    }
+
+    /*
+        Get a users details
+    */
+    public function getUser($username) 
+    {
+        $this->validate(request(), [
+            'jwt' => 'required'
+        ]);
+
+        $user = User::where('username', '=', $username)->get();
+        return json_encode(array("status" => true, "user" => $user));
+    }
+
+    /*
+        Verify a session
+    */
+    public function verifySession() 
+    {
+        if($this->verifyJTW(request()->header('jwt')) === true)
+            return json_encode(array("verify_status" => true));
+        else
+            return json_encode(array("verify_status" => false));
     }
 
     /*
@@ -94,8 +107,9 @@ class ApiController extends Controller
             return json_encode(array("error" => "Sam!_That_is_not_Rubby!"));
     }
 
-    //eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InNkayIsImVtYWlsIjoic2RrYXlAc2RrYXkucHciLCJleHAiOjE1MTIwMDMzOTAsImlzcyI6ImhlbGlvc19hcGkiLCJpYXQiOjE1MTE5NzQ1OTB9.ZFXAnrRgbR_lc5a-IdiWkDW4IhrkiE2OoGzAJgNZKn0
-
+    /*
+        Set a setting if it exist, else create it.
+    */
     public function setSetting()
     {
         if($this->verifyJTW(request()->header('jwt')) === true)
