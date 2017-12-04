@@ -21,7 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->default('/img/avatar01.png');
             $table->string('phone')->default('Not Set');
             $table->boolean('has_2fa')->default(false);
-            $table->integer('sub_plan')->default(0); // Plan 0-MAX_PLAN            
+            $table->integer('sub_plan')->default(0); // Plan 0-MAX_PLAN
+            $table->timestamp('expires');          
             $table->rememberToken();
             $table->timestamps();
         });
