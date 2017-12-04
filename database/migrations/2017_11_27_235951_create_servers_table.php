@@ -18,6 +18,7 @@ class CreateServersTable extends Migration
             $table->integer('current_load');
             $table->string('code_name');
             $table->text('key');
+            $table->string('server_address');
             $table->boolean('is_down')->boolean(false);
             $table->timestamps();
         });
