@@ -91,9 +91,9 @@ class ApiController extends Controller
     public function servers()
     {
         if($this->verifyJTW(request()->header('jwt')) === true)
-            return json_encode(array("servers" => Server::where('is_down', 0)->get()));
+            return json_encode(array("status" => true, "servers" => Server::where('is_down', 0)->get()));
         else
-            return json_encode(array("error" => "Sam!_That_is_not_Rubby!"));
+            return json_encode(array("status" => false, "error" => "Sam!_That_is_not_Rubby!"));
     }
 
     /*
